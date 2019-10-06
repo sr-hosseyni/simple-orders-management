@@ -42,107 +42,11 @@ class Order extends Model
 
     public function product()
     {
-        return $this->belongsTo(Product::class, 'id', 'product_id');
+        return $this->belongsTo(Product::class);
     }
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'id', 'user_id');
-    }
-
-    /**
-     * @return int
-     */
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
-    /**
-     * @return int
-     */
-    public function getQuantity(): int
-    {
-        return $this->quantity;
-    }
-
-    /**
-     * @param int $quantity
-     * @return Order
-     */
-    public function setQuantity(int $quantity): Order
-    {
-        $this->quantity = $quantity;
-        return $this;
-    }
-
-    /**
-     * @return float
-     */
-    public function getTotal(): float
-    {
-        return $this->total;
-    }
-
-    /**
-     * @param float $total
-     * @return Order
-     */
-    public function setTotal(float $total): Order
-    {
-        $this->total = $total;
-        return $this;
-    }
-
-    /**
-     * @return \Illuminate\Support\Carbon|null
-     */
-    public function getCreatedAt(): ?\Illuminate\Support\Carbon
-    {
-        return $this->created_at;
-    }
-
-    /**
-     * @return \Illuminate\Support\Carbon|null
-     */
-    public function getUpdatedAt(): ?\Illuminate\Support\Carbon
-    {
-        return $this->updated_at;
-    }
-
-    /**
-     * @return Product
-     */
-    public function getProduct(): Product
-    {
-        return $this->product;
-    }
-
-    /**
-     * @param Product $product
-     * @return Order
-     */
-    public function setProduct(Product $product): Order
-    {
-        $this->product = $product;
-        return $this;
-    }
-
-    /**
-     * @return User
-     */
-    public function getUser(): User
-    {
-        return $this->user;
-    }
-
-    /**
-     * @param User $user
-     * @return Order
-     */
-    public function setUser(User $user): Order
-    {
-        $this->user = $user;
-        return $this;
+        return $this->belongsTo(User::class);
     }
 }

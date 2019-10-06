@@ -14,3 +14,10 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::resource('order', 'OrderController');
+
+//Route::get('order', 'OrderController@index');
+//Route::get('order/edit', 'OrderController@edit');
+//Route::post('order/update', 'OrderController@update');
+//Route::get('order/delete', 'OrderController@destroy');

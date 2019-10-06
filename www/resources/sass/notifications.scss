@@ -1,0 +1,16 @@
+ul.notifications {
+    display: block;
+    margin: auto;
+    width: max-content;
+
+    li {
+        padding: 5px 20px;
+        color: $white;
+        background: $danger;
+        border: solid 1px silver;
+    }
+
+    .error {
+        background: $danger;
+    }
+}

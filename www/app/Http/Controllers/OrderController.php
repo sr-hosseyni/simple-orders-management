@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Order;
+use App\Product;
+use App\User;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 
 class OrderController extends Controller
 {
@@ -14,7 +18,41 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
+        $filters = Input::get('filters');
+
+        $queryBuilder = Order::query()
+            ->join('users', 'user_id', 'users.id')
+            ->join('products', 'product_id', 'products.id');
+
+        if ($filters['created_at']) {
+            $queryBuilder
+                ->where(
+                    'orders.created_at',
+                    '>',
+                    \DB::raw('NOW() - INTERVAL ' . $filters['created_at'] . ' DAY')
+                );
+        }
+
+        if ($filters['keyword']) {
+            $queryBuilder
+                ->where(function($queryBuilder) use ($filters) {
+                    $queryBuilder
+                        ->where('users.name', 'LIKE', '%' . $filters['keyword'] . '%')
+                        ->orWhere('products.name', 'LIKE', '%' . $filters['keyword'] . '%');
+                });
+        }
+
+//        dd($queryBuilder->toSql());
+        $orders = $queryBuilder->get();
+
+//        dd($orders);
+
+        return view('order/index', [
+            'orders' => $orders,
+            'users' => User::all()->pluck('name', 'id'),
+            'products' => Product::all()->pluck('name', 'id'),
+            'filters' => $filters
+        ]);
     }
 
     /**
@@ -35,7 +73,31 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rules = array(
+            'user_id' => 'required|numeric',
+            'product_id' => 'required|numeric',
+            'quantity' => 'required|numeric'
+        );
+
+        $validator = \Validator::make(Input::all(), $rules);
+
+        if ($validator->fails()) {
+            return \Redirect::to('order')
+                ->withErrors($validator)
+                ->withInput(Input::all());
+        } else {
+            // store
+            $order = new Order();
+            $order->user_id = Input::get('user_id');
+            $order->product_id = Input::get('product_id');
+            $order->quantity = Input::get('quantity');
+            $order->total = Input::get('quantity') * Product::find(Input::get('product_id'))->price;
+            $order->save();
+
+            // redirect
+            \Session::flash('message', 'Successfully created order!');
+            return \Redirect::to('order');
+        }
     }
 
     /**
@@ -57,7 +119,11 @@ class OrderController extends Controller
      */
     public function edit(Order $order)
     {
-        //
+        // show the edit form and pass the nerd
+        return \View::make('order.edit')
+            ->with('order', $order)
+            ->with('users', User::all()->pluck('name', 'id'))
+            ->with('products', Product::all()->pluck('name', 'id'));
     }
 
     /**
@@ -69,7 +135,31 @@ class OrderController extends Controller
      */
     public function update(Request $request, Order $order)
     {
-        //
+        $rules = array(
+            'user_id' => 'required|numeric',
+            'product_id' => 'required|numeric',
+            'quantity' => 'required|numeric'
+        );
+
+        $validator = \Validator::make(Input::all(), $rules);
+
+        // process the login
+        if ($validator->fails()) {
+            return \Redirect::to('order/' . $order->id . '/edit')
+                ->withErrors($validator)
+                ->withInput(Input::all());
+        } else {
+            // store
+            $order->user_id = Input::get('user_id');
+            $order->product_id = Input::get('product_id');
+            $order->quantity = Input::get('quantity');
+            $order->total = Input::get('quantity') * Product::find(Input::get('product_id'))->price;
+            $order->save();
+
+            // redirect
+            \Session::flash('message', 'Successfully updated order!');
+            return \Redirect::to('order');
+        }
     }
 
     /**
@@ -80,6 +170,10 @@ class OrderController extends Controller
      */
     public function destroy(Order $order)
     {
-        //
+        $order->delete();
+
+        // redirect
+        \Session::flash('message', 'Successfully deleted order!');
+        return \Redirect::to('order');
     }
 }

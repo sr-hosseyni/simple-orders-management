@@ -67,6 +67,12 @@ services:
         networks:
             - code-network
 
+    nodejs:
+        image: wiwatsrt/docker-laravel-nodejs
+        volumes:
+            - ./www:/var/www
+        command: npm install && npm run development
+
 networks:
     code-network:
         driver: bridge
