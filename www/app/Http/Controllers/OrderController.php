@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Core\OrderManager;
 use App\Order;
 use App\Product;
 use App\User;
@@ -11,6 +12,16 @@ use Illuminate\Support\Facades\Input;
 
 class OrderController extends Controller
 {
+    /**
+     * @var OrderManager
+     */
+    protected $manager;
+
+    public function __construct(OrderManager $orderManager)
+    {
+        $this->manager = $orderManager;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -42,10 +53,9 @@ class OrderController extends Controller
                 });
         }
 
-//        dd($queryBuilder->toSql());
-        $orders = $queryBuilder->get();
-
-//        dd($orders);
+        $orders = $queryBuilder
+            ->orderBy('orders.created_at', 'desc')
+            ->get();
 
         return view('order/index', [
             'orders' => $orders,
@@ -87,12 +97,11 @@ class OrderController extends Controller
                 ->withInput(Input::all());
         } else {
             // store
-            $order = new Order();
-            $order->user_id = Input::get('user_id');
-            $order->product_id = Input::get('product_id');
-            $order->quantity = Input::get('quantity');
-            $order->total = Input::get('quantity') * Product::find(Input::get('product_id'))->price;
-            $order->save();
+            $this->manager->create(
+                User::find(Input::get('user_id')),
+                Product::find(Input::get('product_id')),
+                Input::get('quantity')
+            );
 
             // redirect
             \Session::flash('message', 'Successfully created order!');
