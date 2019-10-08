@@ -21,6 +21,6 @@ open http://localhost:8080
 ```
 or if you have already cloned just run 
 ```bash
-chmod +x install.sh
+#chmod +x install.sh
 ./install.sh
 ```
