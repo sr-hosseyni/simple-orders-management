@@ -11,7 +11,7 @@ use App\Order;
  *
  * @author sr_hosseini
  */
-class DiscountCalculator extends CalculatorDecorator
+class DiscountDecorator extends CalculatorDecorator
 {
     public function calculate(Order $order): Order
     {
@@ -26,7 +26,7 @@ class DiscountCalculator extends CalculatorDecorator
 
     /**
      * @param Order $order
-     * @return DiscountCalculator
+     * @return DiscountDecorator
      */
     protected function discountBasedOnProduct(Order $order): self
     {
@@ -39,7 +39,7 @@ class DiscountCalculator extends CalculatorDecorator
 
     /**
      * @param Order $order
-     * @return DiscountCalculator
+     * @return DiscountDecorator
      */
     protected function discountBasedOnQuantity(Order $order): self
     {
@@ -52,7 +52,7 @@ class DiscountCalculator extends CalculatorDecorator
 
     /**
      * @param Order $order
-     * @return DiscountCalculator
+     * @return DiscountDecorator
      */
     protected function discountBasedOnProductAndQuantity(Order $order): self
     {

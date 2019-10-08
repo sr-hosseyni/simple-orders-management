@@ -41,7 +41,7 @@ final class CalculatorBuilder
      */
     public function applyDiscount(): self
     {
-        $this->calculator = new DiscountCalculator($this->calculator);
+        $this->calculator = new DiscountDecorator($this->calculator);
         return $this;
     }
 

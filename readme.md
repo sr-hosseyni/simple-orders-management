@@ -24,3 +24,8 @@ or if you have already cloned just run
 #chmod +x install.sh
 ./install.sh
 ```
+
+```bash
+# execute unit tests
+docker-compose run --rm php-fpm php vendor/phpunit/phpunit/phpunit
+```

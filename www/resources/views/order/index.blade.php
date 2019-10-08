@@ -14,3 +14,4 @@
             @include('order/orders-list')
         </div>
     </section>
+@endsection

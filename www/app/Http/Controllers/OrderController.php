@@ -57,6 +57,8 @@ class OrderController extends Controller
             ->orderBy('orders.created_at', 'desc')
             ->get();
 
+        return 'kiir';
+
         return view('order/index', [
             'orders' => $orders,
             'users' => User::all()->pluck('name', 'id'),

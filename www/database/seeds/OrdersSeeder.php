@@ -21,6 +21,11 @@ class OrdersSeeder extends Seeder
         $user2->email = 'hossein@gmail.com';
         $user2->save();
 
+        $user3 = new \App\User();
+        $user3->name = 'Someone';
+        $user3->email = 'someone@somewhere.com';
+        $user3->save();
+
         $pepsi = new \App\Product();
         $pepsi->name = 'Pepsi Cola';
         $pepsi->price = '1.60';
@@ -66,7 +71,7 @@ class OrdersSeeder extends Seeder
         $order4 = new \App\Order();
         $order4->quantity = 2;
         $order4->total = $coca->price * $order4->quantity;
-        $order4->user_id = $user1->id;
+        $order4->user_id = $user3->id;
         $order4->product_id = $coca->id;
         $order4->created_at = gmdate('Y-m-d H:i:s', strtotime('10 hours ago'));
         $order4->updated_at = gmdate('Y-m-d H:i:s', strtotime('10 hours ago'));

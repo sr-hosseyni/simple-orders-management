@@ -15,8 +15,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property float $total
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Product $product
- * @property-read \App\User $user
+ * @property \App\Product $product
+ * @property \App\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Order newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Order newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Order query()
