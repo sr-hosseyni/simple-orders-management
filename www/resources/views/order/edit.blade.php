@@ -1,7 +1,7 @@
 @extends('layout/main')
 <? /** @var $orders \App\Order[] */ ?>
 
-@section('body')
+@section('content')
     <section class="orders-edit">
 
         {{ Form::model($order, array('route' => array('order.update', $order->id), 'method' => 'PUT')) }}
@@ -32,3 +32,4 @@
 
         {{ Form::close() }}
     </section>
+@endsection

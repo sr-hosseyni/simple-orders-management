@@ -1,6 +1,6 @@
 @extends('layout/main')
 
-@section('body')
+@section('content')
     <section class="orders">
         <div id="order-form">
             @include('order/orders-form')
