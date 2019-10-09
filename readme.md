@@ -1,10 +1,13 @@
+# Simple Order TEST 
+## Online Demo
+**http://loan-test.rf.gd**
 
-## REQUIREMENT
-docker  
+## Requirements
+docker
 docker-compose
 git
 
-## INSTALLATION
+## Installation
 
 ```bash
 git clone https://github.com/sr-hosseyni/simple-orders-management
